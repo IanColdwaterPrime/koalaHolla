@@ -3,7 +3,9 @@ var app = express();
 var path = require( 'path' );
 var bodyParser= require( 'body-parser' );
 var urlencodedParser = bodyParser.urlencoded( {extended: false } );
-var port = process.env.PORT || 8080;
+var pg = require('pg');
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/koalaholla';
+var port = process.env.PORT || 8989;
 // static folder
 app.use( express.static( 'public' ) );
 
@@ -34,8 +36,29 @@ app.post( '/addKoala', urlencodedParser, function( req, res ){
   console.log( 'addKoala route hit' );
   //assemble object to send
   var objectToSend={
-    response: 'from addKoala route'
+    response: req.body
   }; //end objectToSend
+
+pg.connect(connectionString, function(err, client, done) {
+  if(err) {
+    console.log(err);
+    alert('Connection failure');
+  }
+  else {
+console.log('db connected');
+  var resultsArray = [];
+  //query call to db
+  var queryResults = client.query('SELECT * FROM koalas');
+  queryResults.on( 'row' function (row) {
+    resultsArray.push(row);
+  }); // end of row function
+  queryResults.on( 'end' function () {
+    done();
+    return res.json( resultsArray );
+  });// end of 'end' function
+  } // end of else
+}); // end of pg connect
+
   //send info back to client
   res.send( objectToSend );
 });
