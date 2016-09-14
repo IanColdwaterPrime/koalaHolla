@@ -47,9 +47,17 @@ pg.connect(connectionString, function(err, client, done) {
   else {
 console.log('db connected');
   var resultsArray = [];
-
-  }
-});
+  //query call to db
+  var queryResults = client.query('SELECT * FROM koalas');
+  queryResults.on( 'row' function (row) {
+    resultsArray.push(row);
+  }); // end of row function
+  queryResults.on( 'end' function () {
+    done();
+    return res.json( resultsArray );
+  });// end of 'end' function
+  } // end of else
+}); // end of pg connect
 
   //send info back to client
   res.send( objectToSend );
