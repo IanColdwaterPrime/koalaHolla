@@ -17,17 +17,18 @@ $( document ).ready( function(){
     // NOT WORKING YET :(
     // using a test object
     var newKoala = {
-      name: 'nameIn',
-      age: 'ageIn',
-      sex: 'sexIn',
-      readyForTransfer: 'readyForTransferIn',
-      notes: 'notesIn',
+      name: nameIn,
+      age: ageIn,
+      sex: sexIn,
+      readyForTransfer: readyForTransferIn,
+      notes: notesIn,
     };
-    // call saveKoala with the new obejct
-    saveKoala( newKoala );
 
-    var saveKoala = function( newKoala ){
-      console.log( 'in saveKoala', newKoala );
+    // call saveKoala with the new obejct
+    // saveKoala( newKoala );
+
+    // var saveKoala = function( newKoala ){
+    //   console.log( 'in saveKoala', newKoala );
       // ajax call to server to get koalas
       $.ajax({
         url: '/addKoala',
@@ -37,7 +38,8 @@ $( document ).ready( function(){
           console.log( 'got some koalas: ', data );
         } // end success
       }); //end ajax
-    }
+
+    // }
 
   }); //end addButton on click
 }); // end doc ready
