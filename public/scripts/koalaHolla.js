@@ -55,4 +55,4 @@ var getKoalas = function(){
     } // end success
   }); //end ajax
   // display on DOM with buttons that allow edit of each
-} // end getKoalas
+}; // end getKoalas
