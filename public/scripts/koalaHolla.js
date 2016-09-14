@@ -9,17 +9,36 @@ $( document ).ready( function(){
   $( '#addButton' ).on( 'click', function(){
     console.log( 'in addButton on click' );
     // get user input and put in an object
+    var nameIn = $('#nameIn').val();
+    var ageIn = $('#ageIn').val();
+    var sexIn = $('#sexIn').val();
+    var readyForTransferIn = $('#readyForTransferIn').val();
+    var notesIn = $('#notesIn').val();
     // NOT WORKING YET :(
     // using a test object
-    var objectToSend = {
-      name: 'testName',
-      age: 'testName',
-      sex: 'testName',
-      readyForTransfer: 'testName',
-      notes: 'testName',
+    var newKoala = {
+      name: 'nameIn',
+      age: 'ageIn',
+      sex: 'sexIn',
+      readyForTransfer: 'readyForTransferIn',
+      notes: 'notesIn',
     };
     // call saveKoala with the new obejct
-    saveKoala( objectToSend );
+    saveKoala( newKoala );
+
+    var saveKoala = function( newKoala ){
+      console.log( 'in saveKoala', newKoala );
+      // ajax call to server to get koalas
+      $.ajax({
+        url: '/addKoala',
+        type: 'post',
+        data: newKoala,
+        success: function( data ){
+          console.log( 'got some koalas: ', data );
+        } // end success
+      }); //end ajax
+    }
+
   }); //end addButton on click
 }); // end doc ready
 
@@ -35,16 +54,3 @@ var getKoalas = function(){
   }); //end ajax
   // display on DOM with buttons that allow edit of each
 } // end getKoalas
-
-var saveKoala = function( newKoala ){
-  console.log( 'in saveKoala', newKoala );
-  // ajax call to server to get koalas
-  $.ajax({
-    url: '/addKoala',
-    type: 'post',
-    data: newKoala,
-    success: function( data ){
-      console.log( 'got some koalas: ', data );
-    } // end success
-  }); //end ajax
-}
