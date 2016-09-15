@@ -1,12 +1,13 @@
 var express = require( 'express' );
 var app = express();
 var path = require( 'path' );
-var bodyParser= require( 'body-parser' );
+var bodyParser = require( 'body-parser' );
 var urlencodedParser = bodyParser.urlencoded( {extended: false } );
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/koalaholla';
+var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/koallaholla';
 var port = process.env.PORT || 8989;
-// static folder
+// static folderkg
+
 app.use( express.static( 'public' ) );
 
 // spin up server
@@ -38,19 +39,24 @@ app.post( '/addKoala', urlencodedParser, function( req, res ){
   var objectToSend={
     response: req.body
   }; //end objectToSend
+  var name = req.body.name;
+  var age = req.body.age;
+  var sex = req.body.sex;
+  var readyForTransfer = req.body.readyForTransfer;
+  var notes = req.body.notes;
     console.log(req.body);
 pg.connect(connectionString, function(err, client, done) {
   if(err) {
     console.log(err);
-    alert('Connection failure');
+    console.log('Connection failure');
   }
   else {
 console.log('db connected');
 
   // //query call to db
- client.query('INSERT INTO koalas(name, sex, age, ready_for_transfer, notes) VALUES ($1, $2, $3, $4, $5)', [name, sex, age, ready_for_transfer, notes]);
+ client.query('INSERT INTO koalas(name, sex, age, ready_for_transfer, notes) VALUES ($1, $2, $3, $4, $5)', [name, sex, age, readyForTransfer, notes]);
 
-    res.send({success:true});
+   res.send({success:true});
   } // end of else
  }); // end of pg connect
 
